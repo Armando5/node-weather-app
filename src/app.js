@@ -1,6 +1,6 @@
-const path = require('path')
 const express = require('express')
 const hbs= require('hbs')
+const path = require('path')
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
@@ -12,7 +12,6 @@ const publicDirectorypath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../template/views')
 const partialsPath = path.join(__dirname, '../template/partials')
 
-//Setup handelbars engine and views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
@@ -20,19 +19,19 @@ hbs.registerPartials(partialsPath)
 //Setup static directory to serve
 app.use(express.static(publicDirectorypath))
 
-app.get('' , (req,res) => {
-    res.render('index', {
-        title: 'Weather',
-        name: 'Armando'
-    })
-})  
-
 app.get('/about', (req,res) => {
     res.render('about',{
         title: 'About me',
         name: 'Armando'
     })
 })
+
+app.get('' , (req,res) => {
+    res.render('index', {
+        title: 'Weather',
+        name: 'Armando'
+    })
+})  
 
 app.get('/help', (req,res) => {
     res.render('help',{
