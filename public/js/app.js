@@ -1,9 +1,10 @@
 const messageOne = document.querySelector('#messageOne')
 const messageTwo = document.querySelector('#messageTwo')
 const search = document.querySelector('input')
-const weatherForm = document.querySelector('form')
+const getWeather = document.querySelector('#search')
+const get = document.querySelector('#get')
 
-weatherForm.addEventListener('submit', (e) => {
+getWeather.addEventListener('click', (e) => {
     e.preventDefault()
 
     const location = search.value
@@ -19,6 +20,28 @@ weatherForm.addEventListener('submit', (e) => {
                 messageOne.textContent = data.location
                 messageTwo.textContent = data.forecast
             }
+        })
+    })
+})
+
+get.addEventListener('click', (e) => {
+    e.preventDefault()
+
+    messageOne.textContent = ''
+    messageTwo.textContent = 'Loading ... '
+
+    get.setAttribute('disabled', 'disabled')
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        fetch('/yourweather?latitude='+ position.coords.latitude + '&longitude=' + position.coords.longitude).then((response) => {
+            response.json().then((data) => {
+                if(data.error){
+                    messageOne.textContent = data.error
+                }else{
+                    messageTwo.textContent = data.forecast
+                }
+            })
+            get.removeAttribute('disabled')
         })
     })
 })
